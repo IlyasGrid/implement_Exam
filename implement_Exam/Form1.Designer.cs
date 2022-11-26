@@ -37,13 +37,16 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.cbxReponses = new System.Windows.Forms.ComboBox();
-            this.txtBoxQuestions = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.LblTypeQuestion = new System.Windows.Forms.Label();
-            this.LblAddQuestion = new System.Windows.Forms.Label();
-            this.LblAddReponses = new System.Windows.Forms.Label();
+            this.txtenonce = new System.Windows.Forms.TextBox();
+            this.LblAddEnonce = new System.Windows.Forms.Label();
             this.cbxQuestion = new System.Windows.Forms.ComboBox();
+            this.radioQsm = new System.Windows.Forms.RadioButton();
+            this.radioQSouverte = new System.Windows.Forms.RadioButton();
+            this.groupBoxTypr = new System.Windows.Forms.GroupBox();
+            this.numericUpDownNote = new System.Windows.Forms.NumericUpDown();
+            this.lblNote = new System.Windows.Forms.Label();
+            this.groupBoxTypr.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNote)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxEpreuve
@@ -58,7 +61,7 @@
             // Epreuve
             // 
             this.Epreuve.AutoSize = true;
-            this.Epreuve.Location = new System.Drawing.Point(12, 40);
+            this.Epreuve.Location = new System.Drawing.Point(104, 43);
             this.Epreuve.Name = "Epreuve";
             this.Epreuve.Size = new System.Drawing.Size(75, 25);
             this.Epreuve.TabIndex = 2;
@@ -68,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 92);
+            this.label2.Location = new System.Drawing.Point(95, 79);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 25);
             this.label2.TabIndex = 3;
@@ -77,123 +80,157 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 304);
+            this.btnAdd.BackColor = System.Drawing.Color.White;
+            this.btnAdd.Enabled = false;
+            this.btnAdd.Location = new System.Drawing.Point(25, 291);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(112, 34);
+            this.btnAdd.Size = new System.Drawing.Size(154, 56);
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "add";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(142, 304);
+            this.btnModify.BackColor = System.Drawing.Color.White;
+            this.btnModify.Location = new System.Drawing.Point(231, 291);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(112, 34);
+            this.btnModify.Size = new System.Drawing.Size(154, 56);
             this.btnModify.TabIndex = 5;
             this.btnModify.Text = "modify";
-            this.btnModify.UseVisualStyleBackColor = true;
+            this.btnModify.UseVisualStyleBackColor = false;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(278, 304);
+            this.btnDelete.BackColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(439, 291);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(112, 34);
+            this.btnDelete.Size = new System.Drawing.Size(154, 56);
             this.btnDelete.TabIndex = 6;
             this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(409, 304);
+            this.btnSave.BackColor = System.Drawing.Color.Gray;
+            this.btnSave.Enabled = false;
+            this.btnSave.Location = new System.Drawing.Point(659, 254);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(112, 34);
+            this.btnSave.Size = new System.Drawing.Size(112, 51);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(547, 304);
+            this.btnCancel.BackColor = System.Drawing.Color.Gray;
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(659, 324);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 34);
+            this.btnCancel.Size = new System.Drawing.Size(112, 51);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // cbxReponses
+            // txtenonce
             // 
-            this.cbxReponses.BackColor = System.Drawing.Color.Gray;
-            this.cbxReponses.Enabled = false;
-            this.cbxReponses.FormattingEnabled = true;
-            this.cbxReponses.Location = new System.Drawing.Point(454, 92);
-            this.cbxReponses.Name = "cbxReponses";
-            this.cbxReponses.Size = new System.Drawing.Size(268, 33);
-            this.cbxReponses.TabIndex = 10;
+            this.txtenonce.BackColor = System.Drawing.Color.White;
+            this.txtenonce.Enabled = false;
+            this.txtenonce.Location = new System.Drawing.Point(142, 155);
+            this.txtenonce.Name = "txtenonce";
+            this.txtenonce.Size = new System.Drawing.Size(268, 31);
+            this.txtenonce.TabIndex = 12;
+            this.txtenonce.TextChanged += new System.EventHandler(this.txtenonce_TextChanged);
             // 
-            // txtBoxQuestions
+            // LblAddEnonce
             // 
-            this.txtBoxQuestions.Location = new System.Drawing.Point(142, 154);
-            this.txtBoxQuestions.Name = "txtBoxQuestions";
-            this.txtBoxQuestions.Size = new System.Drawing.Size(268, 31);
-            this.txtBoxQuestions.TabIndex = 11;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(144, 194);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(268, 31);
-            this.textBox2.TabIndex = 12;
-            // 
-            // LblTypeQuestion
-            // 
-            this.LblTypeQuestion.AutoSize = true;
-            this.LblTypeQuestion.Location = new System.Drawing.Point(399, 92);
-            this.LblTypeQuestion.Name = "LblTypeQuestion";
-            this.LblTypeQuestion.Size = new System.Drawing.Size(49, 25);
-            this.LblTypeQuestion.TabIndex = 13;
-            this.LblTypeQuestion.Text = "Type";
-            this.LblTypeQuestion.Click += new System.EventHandler(this.label1_Click_1);
-            // 
-            // LblAddQuestion
-            // 
-            this.LblAddQuestion.AutoSize = true;
-            this.LblAddQuestion.Location = new System.Drawing.Point(12, 160);
-            this.LblAddQuestion.Name = "LblAddQuestion";
-            this.LblAddQuestion.Size = new System.Drawing.Size(118, 25);
-            this.LblAddQuestion.TabIndex = 14;
-            this.LblAddQuestion.Text = "AddQuestion";
-            // 
-            // LblAddReponses
-            // 
-            this.LblAddReponses.AutoSize = true;
-            this.LblAddReponses.Location = new System.Drawing.Point(8, 194);
-            this.LblAddReponses.Name = "LblAddReponses";
-            this.LblAddReponses.Size = new System.Drawing.Size(122, 25);
-            this.LblAddReponses.TabIndex = 15;
-            this.LblAddReponses.Text = "AddReponses";
+            this.LblAddEnonce.AutoSize = true;
+            this.LblAddEnonce.Location = new System.Drawing.Point(12, 155);
+            this.LblAddEnonce.Name = "LblAddEnonce";
+            this.LblAddEnonce.Size = new System.Drawing.Size(103, 25);
+            this.LblAddEnonce.TabIndex = 15;
+            this.LblAddEnonce.Text = "AddEnonce";
+            this.LblAddEnonce.Click += new System.EventHandler(this.LblAddReponses_Click);
             // 
             // cbxQuestion
             // 
-            this.cbxQuestion.BackColor = System.Drawing.Color.Gray;
-            this.cbxQuestion.Enabled = false;
+            this.cbxQuestion.BackColor = System.Drawing.Color.White;
             this.cbxQuestion.FormattingEnabled = true;
-            this.cbxQuestion.Location = new System.Drawing.Point(102, 92);
+            this.cbxQuestion.Location = new System.Drawing.Point(185, 79);
             this.cbxQuestion.Name = "cbxQuestion";
             this.cbxQuestion.Size = new System.Drawing.Size(268, 33);
             this.cbxQuestion.TabIndex = 1;
             this.cbxQuestion.SelectedIndexChanged += new System.EventHandler(this.cbxQuestion_SelectedIndexChanged);
+            // 
+            // radioQsm
+            // 
+            this.radioQsm.AutoSize = true;
+            this.radioQsm.Enabled = false;
+            this.radioQsm.Location = new System.Drawing.Point(16, 40);
+            this.radioQsm.Name = "radioQsm";
+            this.radioQsm.Size = new System.Drawing.Size(77, 29);
+            this.radioQsm.TabIndex = 16;
+            this.radioQsm.TabStop = true;
+            this.radioQsm.Text = "QSM";
+            this.radioQsm.UseVisualStyleBackColor = true;
+            this.radioQsm.CheckedChanged += new System.EventHandler(this.radioQsm_CheckedChanged);
+            // 
+            // radioQSouverte
+            // 
+            this.radioQSouverte.AutoSize = true;
+            this.radioQSouverte.Enabled = false;
+            this.radioQSouverte.Location = new System.Drawing.Point(16, 78);
+            this.radioQSouverte.Name = "radioQSouverte";
+            this.radioQSouverte.Size = new System.Drawing.Size(174, 29);
+            this.radioQSouverte.TabIndex = 17;
+            this.radioQSouverte.TabStop = true;
+            this.radioQSouverte.Text = "Question ouverte";
+            this.radioQSouverte.UseVisualStyleBackColor = true;
+            this.radioQSouverte.CheckedChanged += new System.EventHandler(this.radioQSouverte_CheckedChanged);
+            // 
+            // groupBoxTypr
+            // 
+            this.groupBoxTypr.Controls.Add(this.radioQSouverte);
+            this.groupBoxTypr.Controls.Add(this.radioQsm);
+            this.groupBoxTypr.Location = new System.Drawing.Point(416, 137);
+            this.groupBoxTypr.Name = "groupBoxTypr";
+            this.groupBoxTypr.Size = new System.Drawing.Size(236, 113);
+            this.groupBoxTypr.TabIndex = 18;
+            this.groupBoxTypr.TabStop = false;
+            this.groupBoxTypr.Text = "type";
+            this.groupBoxTypr.Enter += new System.EventHandler(this.groupBoxType_Enter);
+            // 
+            // numericUpDownNote
+            // 
+            this.numericUpDownNote.Enabled = false;
+            this.numericUpDownNote.Location = new System.Drawing.Point(142, 202);
+            this.numericUpDownNote.Name = "numericUpDownNote";
+            this.numericUpDownNote.Size = new System.Drawing.Size(180, 31);
+            this.numericUpDownNote.TabIndex = 19;
+            // 
+            // lblNote
+            // 
+            this.lblNote.AutoSize = true;
+            this.lblNote.Location = new System.Drawing.Point(12, 208);
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(48, 25);
+            this.lblNote.TabIndex = 20;
+            this.lblNote.Text = "note";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.LblAddReponses);
-            this.Controls.Add(this.LblAddQuestion);
-            this.Controls.Add(this.LblTypeQuestion);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.txtBoxQuestions);
-            this.Controls.Add(this.cbxReponses);
+            this.Controls.Add(this.lblNote);
+            this.Controls.Add(this.numericUpDownNote);
+            this.Controls.Add(this.groupBoxTypr);
+            this.Controls.Add(this.LblAddEnonce);
+            this.Controls.Add(this.txtenonce);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnDelete);
@@ -205,6 +242,10 @@
             this.Controls.Add(this.cbxEpreuve);
             this.Name = "Form1";
             this.Text = "FormModifyEpreuve";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.groupBoxTypr.ResumeLayout(false);
+            this.groupBoxTypr.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNote)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,12 +262,13 @@
         private Button btnDelete;
         private Button btnSave;
         private Button btnCancel;
-        private ComboBox cbxReponses;
-        private TextBox txtBoxQuestions;
-        private TextBox textBox2;
-        private Label LblTypeQuestion;
-        private Label LblAddQuestion;
-        private Label LblAddReponses;
+        private TextBox txtenonce;
+        private Label LblAddEnonce;
         private ComboBox cbxQuestion;
+        private RadioButton radioQsm;
+        private RadioButton radioQSouverte;
+        private GroupBox groupBoxTypr;
+        private NumericUpDown numericUpDownNote;
+        private Label lblNote;
     }
 }

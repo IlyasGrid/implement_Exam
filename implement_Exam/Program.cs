@@ -1,4 +1,4 @@
-using EpreuveCs;
+using implement_Exam.csEpreuve;
 namespace implement_Exam
 {
     public static class Program
@@ -12,7 +12,7 @@ namespace implement_Exam
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form2());
+            Application.Run(new Form1());
 
 
 
