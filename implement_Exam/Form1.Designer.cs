@@ -61,7 +61,7 @@
             // Epreuve
             // 
             this.Epreuve.AutoSize = true;
-            this.Epreuve.Location = new System.Drawing.Point(104, 43);
+            this.Epreuve.Location = new System.Drawing.Point(95, 43);
             this.Epreuve.Name = "Epreuve";
             this.Epreuve.Size = new System.Drawing.Size(75, 25);
             this.Epreuve.TabIndex = 2;

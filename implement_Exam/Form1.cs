@@ -265,8 +265,6 @@ namespace implement_Exam
 
         }
 
-
-
         private void LblAddReponses_Click(object sender, EventArgs e)
         {
 
@@ -276,10 +274,6 @@ namespace implement_Exam
         {
 
         }
-
-
-
-
 
         private void groupBoxType_Enter(object sender, EventArgs e)
         {
@@ -296,4 +290,5 @@ namespace implement_Exam
             estQsm = false;
         }
     }
+
 }
