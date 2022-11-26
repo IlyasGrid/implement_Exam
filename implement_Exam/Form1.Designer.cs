@@ -45,6 +45,7 @@
             this.groupBoxTypr = new System.Windows.Forms.GroupBox();
             this.numericUpDownNote = new System.Windows.Forms.NumericUpDown();
             this.lblNote = new System.Windows.Forms.Label();
+            this.addRps = new System.Windows.Forms.Button();
             this.groupBoxTypr.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNote)).BeginInit();
             this.SuspendLayout();
@@ -221,11 +222,23 @@
             this.lblNote.TabIndex = 20;
             this.lblNote.Text = "note";
             // 
+            // addRps
+            // 
+            this.addRps.Location = new System.Drawing.Point(658, 155);
+            this.addRps.Name = "addRps";
+            this.addRps.Size = new System.Drawing.Size(112, 59);
+            this.addRps.TabIndex = 21;
+            this.addRps.Text = "AddReponses";
+            this.addRps.UseVisualStyleBackColor = true;
+            this.addRps.Visible = false;
+            this.addRps.Click += new System.EventHandler(this.addRps_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.addRps);
             this.Controls.Add(this.lblNote);
             this.Controls.Add(this.numericUpDownNote);
             this.Controls.Add(this.groupBoxTypr);
@@ -270,5 +283,6 @@
         private GroupBox groupBoxTypr;
         private NumericUpDown numericUpDownNote;
         private Label lblNote;
+        private Button addRps;
     }
 }

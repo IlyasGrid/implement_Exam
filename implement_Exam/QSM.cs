@@ -64,6 +64,7 @@ namespace implement_Exam
         }
         private void btnReturn_Click(object sender, EventArgs e)
         {
+            cnx.Close();
             Form1 ins = new Form1();
             ins.MdiParent = this.MdiParent;
             this.Show();

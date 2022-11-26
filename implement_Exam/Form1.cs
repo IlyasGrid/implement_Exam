@@ -151,8 +151,10 @@ namespace implement_Exam
             turn_On_Off(btnCancel, false);
             turn_On_Off(btnModify, true);
             turn_On_Off(btnDelete, true);
+            turn_On_Off(btnAdd, true);
 
             txtenonce.Enabled = true;
+            cbxQuestion.Enabled = true;
             numericUpDownNote.Enabled = true;
             radioQsm.Enabled = true;
             radioQSouverte.Enabled = true;
@@ -205,6 +207,7 @@ namespace implement_Exam
             turn_On_Off(btnModify, true);
             turn_On_Off(btnDelete, true);
 
+            cbxQuestion.Enabled = true;
             txtenonce.Enabled = true;
             numericUpDownNote.Enabled = true;
             radioQsm.Enabled = true;
@@ -228,9 +231,12 @@ namespace implement_Exam
             turn_On_Off(btnAdd, true);
 
             cnx.Close();
+
+            cnx.Open();
+
             string query2 = "select ennonce, id from question where idepreuve=" + cbxEpreuve.SelectedValue + " ;";
             cmd.CommandText = query2;
-            cnx.Open();
+
             SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
             DataSet ds2 = new DataSet();
             drd2.Fill(ds2, "ennonce");
@@ -254,9 +260,15 @@ namespace implement_Exam
 
         private void cbxQuestion_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-
+            cnx.Close();
+            cnx.Open();
+            cmd.Connection = cnx;
+            cmd.CommandText = "select type from question where id= " + cbxQuestion.SelectedValue + ";";
+            bool isQsm = (bool)cmd.ExecuteScalar();
+            if (isQsm)
+            {
+                addRps.Visible = true;
+            }
 
         }
 
@@ -288,6 +300,15 @@ namespace implement_Exam
         private void radioQSouverte_CheckedChanged(object sender, EventArgs e)
         {
             estQsm = false;
+        }
+
+        private void addRps_Click(object sender, EventArgs e)
+        {
+            cnx.Close();
+            QSM ins = new QSM();
+            ins.MdiParent = this.MdiParent;
+            this.Show();
+            ins.ShowDialog();
         }
     }
 
