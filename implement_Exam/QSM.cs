@@ -76,7 +76,7 @@ namespace implement_Exam
 
             cnx.Close();
             cnx.Open();
-            string query2 = "select qsm.reponse, qsm.id from qsm inner join question ON question.id = qsm.id_question where   question.type =1  and id_question=" + cbxQS.SelectedValue + ";";
+            string query2 = "select qsm.reponse, qsm.id from qsm inner join question ON question.id = qsm.id_question  where   question.type =1  and id_question=" + cbxQS.SelectedValue + ";";
             cmd.CommandText = query2;
             SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
             DataSet ds2 = new DataSet();
@@ -101,7 +101,7 @@ namespace implement_Exam
 
         private void QSM_Load(object sender, EventArgs e)
         {
-            string query2 = "select ennonce, id from question ";
+            string query2 = "select ennonce, id from question where question.type=1";
             cmd.CommandText = query2;
             cnx.Open();
             SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
@@ -238,6 +238,16 @@ namespace implement_Exam
         private void QSM_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void radioVrai_CheckedChanged(object sender, EventArgs e)
+        {
+            estVrai = true;
+        }
+
+        private void radioFaux_CheckedChanged(object sender, EventArgs e)
+        {
+            estVrai = false;
         }
     }
 }

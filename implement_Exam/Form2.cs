@@ -123,7 +123,7 @@ namespace implement_Exam
             turn_On_Off(BtnSave, true);
             turn_On_Off(btnCancel, true);
         }
-
+        /* ouvre la form question pour ajouter des question */
         private void btnAddQuestion_Click(object sender, EventArgs e)
         {
             txtDuree.Text = "";
@@ -135,6 +135,7 @@ namespace implement_Exam
         }
         private void BtnSave_Click(object sender, EventArgs e)
         {
+            /* if pour assurer que les champs sont remplis  */
             if (String.IsNullOrEmpty(txtDuree.Text) || String.IsNullOrEmpty(txtMatiere.Text) || numericUpDownNOTE.Value == 0)
             {
                 BtnSave.Text = "try again";
@@ -147,7 +148,7 @@ namespace implement_Exam
                 turn_On_Off(BtnSave, false);
 
                 epreuves.Add(new Epreuve(txtMatiere.Text, txtDuree.Text, Convert.ToInt32(numericUpDownNOTE.Value), dateTimePicker.Value.Date));
-
+                /* la requete sql*/
 
                 cnx.Open();
                 cmd.Connection = cnx;
@@ -160,8 +161,6 @@ namespace implement_Exam
                 btnAddQuestion.Enabled = true;
             }
         }
-
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             txtDuree.Text = "";

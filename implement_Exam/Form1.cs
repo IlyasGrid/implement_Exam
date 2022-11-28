@@ -166,7 +166,7 @@ namespace implement_Exam
                 string ennonce = txtenonce.Text;
                 int note = int.Parse(numericUpDownNote.Value.ToString());
 
-
+                cnx.Close();
                 cnx.Open();
                 cmd.Connection = cnx;
                 cmd.CommandText = "insert into question( ennonce,noteQs,idEpreuve,type ) values('" + ennonce + " '," + note + "," + cbxEpreuve.SelectedValue + ",'" + estQsm + "')";
@@ -348,6 +348,11 @@ namespace implement_Exam
             {
                 lblError.Visible = true;
             }
+        }
+
+        private void lblError_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
