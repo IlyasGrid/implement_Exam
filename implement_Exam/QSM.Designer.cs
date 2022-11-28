@@ -211,6 +211,7 @@
             this.Controls.Add(this.cbxQS);
             this.Name = "QSM";
             this.Text = "QSM";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.QSM_FormClosing);
             this.Load += new System.EventHandler(this.QSM_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -61,6 +61,8 @@ namespace implement_Exam
         private void Form1_Load(object sender, EventArgs e)
         {
 
+
+
             string query = "select matiere, id from epreuve";
             cmd.CommandText = query;
             cnx.Open();
@@ -187,11 +189,19 @@ namespace implement_Exam
             }
             if (whatClicked == "delete")
             {
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "delete from question where id =" + cbxQuestion.SelectedValue + " ";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
+                try
+                {
+                    cnx.Close();
+                    cnx.Open();
+                    cmd.Connection = cnx;
+                    cmd.CommandText = "delete from question where id =" + cbxQuestion.SelectedValue + " ";
+                    cmd.ExecuteNonQuery();
+                    cnx.Close();
+                }
+                catch
+                {
+                    lblError.Visible = true;
+                }
             }
 
 
@@ -228,6 +238,7 @@ namespace implement_Exam
 
         private void cbxEpreuve_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lblError.Visible = false;
             turn_On_Off(btnAdd, true);
 
             cnx.Close();
@@ -260,6 +271,8 @@ namespace implement_Exam
 
         private void cbxQuestion_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lblError.Visible = false;
+
             cnx.Close();
             cnx.Open();
             cmd.Connection = cnx;
@@ -268,6 +281,10 @@ namespace implement_Exam
             if (isQsm)
             {
                 addRps.Visible = true;
+            }
+            else
+            {
+                addRps.Visible = false;
             }
 
         }
@@ -305,10 +322,32 @@ namespace implement_Exam
         private void addRps_Click(object sender, EventArgs e)
         {
             cnx.Close();
-            QSM ins = new QSM();
-            ins.MdiParent = this.MdiParent;
-            this.Show();
-            ins.ShowDialog();
+
+            Program.qcm.Show();
+            Program.question.Hide();
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnDeleteEpreuve_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cnx.Close();
+                cnx.Open();
+                cmd.Connection = cnx;
+                cmd.CommandText = "delete from epreuve where id =" + cbxEpreuve.SelectedValue + " ";
+                cmd.ExecuteNonQuery();
+                cnx.Close();
+            }
+            catch
+            {
+                lblError.Visible = true;
+            }
         }
     }
 

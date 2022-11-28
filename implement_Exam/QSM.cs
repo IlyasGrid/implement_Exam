@@ -66,9 +66,8 @@ namespace implement_Exam
         {
             cnx.Close();
             Form1 ins = new Form1();
-            ins.MdiParent = this.MdiParent;
-            this.Show();
-            ins.ShowDialog();
+            ins.Show();
+            this.Hide();
         }
 
         private void cbxQS_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,7 +76,7 @@ namespace implement_Exam
 
             cnx.Close();
             cnx.Open();
-            string query2 = "select reponse, id from qsm where id_question=" + cbxQS.SelectedValue + " ;";
+            string query2 = "select qsm.reponse, qsm.id from qsm inner join question ON question.id = qsm.id_question where   question.type =1  and id_question=" + cbxQS.SelectedValue + ";";
             cmd.CommandText = query2;
             SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
             DataSet ds2 = new DataSet();
@@ -212,7 +211,7 @@ namespace implement_Exam
             {
                 cnx.Open();
                 cmd.Connection = cnx;
-                cmd.CommandText = "delete from qsm where id =" + cbxRp.SelectedValue + " ";
+                cmd.CommandText = "delete from qsm where id = " + cbxRp.SelectedValue + " ";
                 cmd.ExecuteNonQuery();
                 cnx.Close();
             }
@@ -234,6 +233,11 @@ namespace implement_Exam
             radioVrai.Enabled = false;
             cbxRp.Enabled = true;
             txtRp.Clear();
+        }
+
+        private void QSM_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

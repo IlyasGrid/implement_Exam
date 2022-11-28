@@ -46,6 +46,8 @@
             this.numericUpDownNote = new System.Windows.Forms.NumericUpDown();
             this.lblNote = new System.Windows.Forms.Label();
             this.addRps = new System.Windows.Forms.Button();
+            this.btnDeleteEpreuve = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.groupBoxTypr.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNote)).BeginInit();
             this.SuspendLayout();
@@ -233,11 +235,36 @@
             this.addRps.Visible = false;
             this.addRps.Click += new System.EventHandler(this.addRps_Click);
             // 
+            // btnDeleteEpreuve
+            // 
+            this.btnDeleteEpreuve.Location = new System.Drawing.Point(568, 44);
+            this.btnDeleteEpreuve.Name = "btnDeleteEpreuve";
+            this.btnDeleteEpreuve.Size = new System.Drawing.Size(202, 34);
+            this.btnDeleteEpreuve.TabIndex = 22;
+            this.btnDeleteEpreuve.Text = "DeleteEpreuve";
+            this.btnDeleteEpreuve.UseVisualStyleBackColor = true;
+            this.btnDeleteEpreuve.Click += new System.EventHandler(this.btnDeleteEpreuve_Click);
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Algerian", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(482, 90);
+            this.lblError.MaximumSize = new System.Drawing.Size(200, 50);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(192, 44);
+            this.lblError.TabIndex = 23;
+            this.lblError.Text = "sorry somthing went wrong";
+            this.lblError.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.btnDeleteEpreuve);
             this.Controls.Add(this.addRps);
             this.Controls.Add(this.lblNote);
             this.Controls.Add(this.numericUpDownNote);
@@ -255,6 +282,7 @@
             this.Controls.Add(this.cbxEpreuve);
             this.Name = "Form1";
             this.Text = "FormModifyEpreuve";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBoxTypr.ResumeLayout(false);
             this.groupBoxTypr.PerformLayout();
@@ -284,5 +312,7 @@
         private NumericUpDown numericUpDownNote;
         private Label lblNote;
         private Button addRps;
+        private Button btnDeleteEpreuve;
+        private Label lblError;
     }
 }

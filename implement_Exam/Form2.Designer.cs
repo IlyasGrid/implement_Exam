@@ -33,12 +33,14 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtMatiere = new System.Windows.Forms.TextBox();
             this.txtDuree = new System.Windows.Forms.TextBox();
-            this.txtNote = new System.Windows.Forms.TextBox();
             this.LblMatiere = new System.Windows.Forms.Label();
             this.LblDuree = new System.Windows.Forms.Label();
             this.LblNoteTotal = new System.Windows.Forms.Label();
             this.LblDateEpreuve = new System.Windows.Forms.Label();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.btnAddQuestion = new System.Windows.Forms.Button();
+            this.numericUpDownNOTE = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNOTE)).BeginInit();
             this.SuspendLayout();
             // 
             // LblCreationEpreuve
@@ -68,7 +70,7 @@
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Gray;
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(451, 385);
+            this.btnCancel.Location = new System.Drawing.Point(345, 385);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(141, 53);
             this.btnCancel.TabIndex = 2;
@@ -91,14 +93,6 @@
             this.txtDuree.Size = new System.Drawing.Size(150, 31);
             this.txtDuree.TabIndex = 4;
             this.txtDuree.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // txtNote
-            // 
-            this.txtNote.Location = new System.Drawing.Point(139, 213);
-            this.txtNote.Name = "txtNote";
-            this.txtNote.Size = new System.Drawing.Size(150, 31);
-            this.txtNote.TabIndex = 5;
-            this.txtNote.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // LblMatiere
             // 
@@ -148,17 +142,37 @@
             this.dateTimePicker.TabIndex = 11;
             this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
+            // btnAddQuestion
+            // 
+            this.btnAddQuestion.Enabled = false;
+            this.btnAddQuestion.Location = new System.Drawing.Point(550, 385);
+            this.btnAddQuestion.Name = "btnAddQuestion";
+            this.btnAddQuestion.Size = new System.Drawing.Size(209, 34);
+            this.btnAddQuestion.TabIndex = 12;
+            this.btnAddQuestion.Text = "add Question";
+            this.btnAddQuestion.UseVisualStyleBackColor = true;
+            this.btnAddQuestion.Click += new System.EventHandler(this.btnAddQuestion_Click);
+            // 
+            // numericUpDownNOTE
+            // 
+            this.numericUpDownNOTE.Location = new System.Drawing.Point(139, 216);
+            this.numericUpDownNOTE.Name = "numericUpDownNOTE";
+            this.numericUpDownNOTE.Size = new System.Drawing.Size(180, 31);
+            this.numericUpDownNOTE.TabIndex = 13;
+            this.numericUpDownNOTE.ValueChanged += new System.EventHandler(this.numericUpDownNOTE_ValueChanged);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.numericUpDownNOTE);
+            this.Controls.Add(this.btnAddQuestion);
             this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.LblDateEpreuve);
             this.Controls.Add(this.LblNoteTotal);
             this.Controls.Add(this.LblDuree);
             this.Controls.Add(this.LblMatiere);
-            this.Controls.Add(this.txtNote);
             this.Controls.Add(this.txtDuree);
             this.Controls.Add(this.txtMatiere);
             this.Controls.Add(this.btnCancel);
@@ -167,6 +181,8 @@
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
+            this.Leave += new System.EventHandler(this.Form2_Leave);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNOTE)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -179,11 +195,12 @@
         private Button btnCancel;
         private TextBox txtMatiere;
         private TextBox txtDuree;
-        private TextBox txtNote;
         private Label LblMatiere;
         private Label LblDuree;
         private Label LblNoteTotal;
         private Label LblDateEpreuve;
         private DateTimePicker dateTimePicker;
+        private Button btnAddQuestion;
+        private NumericUpDown numericUpDownNOTE;
     }
 }
