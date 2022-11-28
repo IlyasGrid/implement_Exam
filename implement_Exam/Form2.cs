@@ -22,6 +22,7 @@ namespace implement_Exam
         }
         /* list pour stocker les epreuves de databse dans la classe */
         public List<Epreuve> epreuves = new List<Epreuve>();
+
         /* la connection  */
         static string chaine = @"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True";
         static SqlConnection cnx = new SqlConnection(chaine);

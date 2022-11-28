@@ -1,4 +1,5 @@
-﻿using System;
+﻿using implement_Exam.csEpreuve;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +20,8 @@ namespace implement_Exam
         }
         string whatclicked;
         bool estVrai;
+
+        List<Reponse> choix = new List<Reponse>();
 
         static string chaine = @"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True";
         static SqlConnection cnx = new SqlConnection(chaine);
@@ -69,7 +72,6 @@ namespace implement_Exam
             ins.Show();
             this.Hide();
         }
-
         private void cbxQS_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbxRp.Enabled = true;
@@ -187,6 +189,7 @@ namespace implement_Exam
             {
                 string rp = txtRp.Text;
 
+                choix.Add(new Reponse(estVrai, rp));
 
                 cnx.Open();
                 cmd.Connection = cnx;
@@ -199,6 +202,19 @@ namespace implement_Exam
             {
                 string rp = txtRp.Text;
 
+                object obj = new object();
+                SqlCommand cmd = new SqlCommand("SELECT reponse FROM qsm WHERE id =" + cbxRp.SelectedValue + " ", cnx);
+                cmd.Connection.Open();
+                obj = cmd.ExecuteNonQuery();
+                string repp = (string)obj;
+                for (int i = 0; i < choix.Count; i++)
+                {
+                    if (choix[i].StrRepons == repp)
+                    {
+                        choix[i].StrRepons = rp;
+                        choix[i].Verite = estVrai;
+                    }
+                }
 
                 cnx.Open();
                 cmd.Connection = cnx;
@@ -209,6 +225,19 @@ namespace implement_Exam
             }
             if (whatclicked == "delete")
             {
+                object obj = new object();
+                SqlCommand cmd = new SqlCommand("SELECT reponse FROM qsm WHERE id =" + cbxRp.SelectedValue + " ", cnx);
+                cmd.Connection.Open();
+                obj = cmd.ExecuteNonQuery();
+                string repp = (string)obj;
+                for (int i = 0; i < choix.Count; i++)
+                {
+                    if (choix[i].StrRepons == repp)
+                    {
+                        choix.RemoveAt(i);
+                    }
+                }
+
                 cnx.Open();
                 cmd.Connection = cnx;
                 cmd.CommandText = "delete from qsm where id = " + cbxRp.SelectedValue + " ";

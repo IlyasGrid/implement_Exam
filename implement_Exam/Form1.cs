@@ -1,3 +1,4 @@
+using implement_Exam.csEpreuve;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -11,12 +12,17 @@ namespace implement_Exam
         static SqlCommand cmd = new SqlCommand();
         static SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 
+        public List<Question> questions = new List<Question>();
+
+        /* pour identifier type de question si il est qcm ou pas*/
         bool estQsm;
+        /* pour savoir la derniere button cliquer */
         string whatClicked;
         public Form1()
         {
             InitializeComponent();
         }
+        /* fonction pour desactiver les bouttons ou les activer selon le parametre boolean entre */
         public void turn_On_Off(Button btn, bool b)
         {
             btn.Enabled = b;
@@ -32,7 +38,7 @@ namespace implement_Exam
         }
 
 
-
+        /*verifier si la table est vide*/
         public bool TableQSIsEmpty(string table)
         {
             string qry = "SELECT count(*) FROM " + table + " where idepreuve = " + cbxEpreuve.SelectedValue + ";";
@@ -60,8 +66,6 @@ namespace implement_Exam
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
 
             string query = "select matiere, id from epreuve";
             cmd.CommandText = query;
@@ -166,6 +170,9 @@ namespace implement_Exam
                 string ennonce = txtenonce.Text;
                 int note = int.Parse(numericUpDownNote.Value.ToString());
 
+                questions.Add(new(ennonce, note));
+
+
                 cnx.Close();
                 cnx.Open();
                 cmd.Connection = cnx;
@@ -179,6 +186,20 @@ namespace implement_Exam
                 string ennonce = txtenonce.Text;
                 int note = int.Parse(numericUpDownNote.Value.ToString());
 
+                object obj = new object();
+                SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
+                cmd.Connection.Open();
+                obj = cmd.ExecuteNonQuery();
+                string enn = (string)obj;
+
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    if (questions[i].Ennonce == enn)
+                    {
+                        questions[i].Ennonce = ennonce;
+                        questions[i].NoteQuestion = note;
+                    }
+                }
 
                 cnx.Open();
                 cmd.Connection = cnx;
@@ -191,6 +212,21 @@ namespace implement_Exam
             {
                 try
                 {
+                    object obj = new object();
+                    SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
+                    cmd.Connection.Open();
+                    obj = cmd.ExecuteNonQuery();
+                    string enn = (string)obj;
+
+                    for (int i = 0; i < questions.Count; i++)
+                    {
+                        if (questions[i].Ennonce == enn)
+                        {
+                            questions.RemoveAt(i);
+                        }
+                    }
+
+
                     cnx.Close();
                     cnx.Open();
                     cmd.Connection = cnx;
