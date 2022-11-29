@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using implement_Exam.Sql;
+using System.Configuration;
 
 namespace implement_Exam
 {
@@ -18,15 +20,11 @@ namespace implement_Exam
         {
             InitializeComponent();
         }
+
         string whatclicked;
         bool estVrai;
+        ReponseRequete rpn = new ReponseRequete();
 
-        List<Reponse> choix = new List<Reponse>();
-
-        static string chaine = @"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True";
-        static SqlConnection cnx = new SqlConnection(chaine);
-        static SqlCommand cmd = new SqlCommand();
-        static SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 
 
         public void turn_On_Off(Button btn, bool b)
@@ -67,7 +65,7 @@ namespace implement_Exam
         }
         private void btnReturn_Click(object sender, EventArgs e)
         {
-            cnx.Close();
+
             Form1 ins = new Form1();
             ins.Show();
             this.Hide();
@@ -75,18 +73,7 @@ namespace implement_Exam
         private void cbxQS_SelectedIndexChanged(object sender, EventArgs e)
         {
             cbxRp.Enabled = true;
-
-            cnx.Close();
-            cnx.Open();
-            string query2 = "select qsm.reponse, qsm.id from qsm inner join question ON question.id = qsm.id_question  where   question.type =1  and id_question=" + cbxQS.SelectedValue + ";";
-            cmd.CommandText = query2;
-            SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
-            DataSet ds2 = new DataSet();
-            drd2.Fill(ds2, "reponse");
-            cbxRp.DisplayMember = "reponse";
-            cbxRp.ValueMember = "id";
-            cbxRp.DataSource = ds2.Tables["reponse"];
-            cnx.Close();
+            rpn.fillReponseCombobox(cbxRp, cbxQS);
 
             if (TableQSIsEmpty("qsm"))
             {
@@ -103,16 +90,14 @@ namespace implement_Exam
 
         private void QSM_Load(object sender, EventArgs e)
         {
-            string query2 = "select ennonce, id from question where question.type=1";
-            cmd.CommandText = query2;
-            cnx.Open();
-            SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
-            DataSet ds2 = new DataSet();
-            drd2.Fill(ds2, "ennonce");
-            cbxQS.DisplayMember = "ennonce";
-            cbxQS.ValueMember = "id";
-            cbxQS.DataSource = ds2.Tables["ennonce"];
-            cnx.Close();
+            rpn.fillCombobox(cbxQS);
+
+            turn_On_Off(btnAdd, true);
+            turn_On_Off(btnDelete, false);
+            turn_On_Off(btnModify, false);
+            turn_On_Off(btnSave, false);
+            turn_On_Off(btnCancel, false);
+
 
         }
 
@@ -187,62 +172,19 @@ namespace implement_Exam
 
             if (whatclicked == "add")
             {
-                string rp = txtRp.Text;
-
-                choix.Add(new Reponse(estVrai, rp));
-
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "insert into qsm( reponse,verite,id_question ) values('" + rp + "','" + estVrai + "'," + cbxQS.SelectedValue + ")";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
-
+                string repon = txtRp.Text;
+                rpn.insertReponse(repon, estVrai, (int)cbxQS.SelectedValue);
             }
             if (whatclicked == "modify")
             {
                 string rp = txtRp.Text;
 
-                object obj = new object();
-                SqlCommand cmd = new SqlCommand("SELECT reponse FROM qsm WHERE id =" + cbxRp.SelectedValue + " ", cnx);
-                cmd.Connection.Open();
-                obj = cmd.ExecuteNonQuery();
-                string repp = (string)obj;
-                for (int i = 0; i < choix.Count; i++)
-                {
-                    if (choix[i].StrRepons == repp)
-                    {
-                        choix[i].StrRepons = rp;
-                        choix[i].Verite = estVrai;
-                    }
-                }
-
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = " update qsm set reponse ='" + txtRp.Text + "', verite = '" + estVrai + "' where id= " + cbxRp.SelectedValue + " ;";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
+                rpn.updateReponse(rp, estVrai, (int)cbxRp.SelectedValue);
                 txtRp.Clear();
             }
             if (whatclicked == "delete")
             {
-                object obj = new object();
-                SqlCommand cmd = new SqlCommand("SELECT reponse FROM qsm WHERE id =" + cbxRp.SelectedValue + " ", cnx);
-                cmd.Connection.Open();
-                obj = cmd.ExecuteNonQuery();
-                string repp = (string)obj;
-                for (int i = 0; i < choix.Count; i++)
-                {
-                    if (choix[i].StrRepons == repp)
-                    {
-                        choix.RemoveAt(i);
-                    }
-                }
-
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "delete from qsm where id = " + cbxRp.SelectedValue + " ";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
+                rpn.deleteReponse((int)cbxRp.SelectedValue);
             }
 
         }

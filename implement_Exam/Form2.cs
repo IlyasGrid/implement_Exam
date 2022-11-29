@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using implement_Exam.csEpreuve;
 using System.Collections;
+using implement_Exam.Sql;
 
 namespace implement_Exam
 {
@@ -23,37 +24,15 @@ namespace implement_Exam
         /* list pour stocker les epreuves de databse dans la classe */
         public List<Epreuve> epreuves = new List<Epreuve>();
 
-        /* la connection  */
+        EpreuveRequte requete = new();
+
         static string chaine = @"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True";
         static SqlConnection cnx = new SqlConnection(chaine);
         static SqlCommand cmd = new SqlCommand();
         static SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 
         /*  fonction pour verifier ci la table EPREUVE est vide ou plien */
-        public bool TableIsEmpty()
-        {
-            /* j'ai refait la connection car j'ai un probleme dans ExecuteScalar */
-            string qry = "SELECT count(*) FROM epreuve ;";
-            SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True");
-            conn.Open();
-            SqlCommand comd = new SqlCommand(qry, conn);
-            try
-            {
-                Int32 count = (Int32)comd.ExecuteScalar();
-                if (count == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+
 
         /* fonction pour desactiver les bouttons ou les activer selon le parametre boolean entre */
         public void turn_On_Off(Button btn, bool b)
@@ -74,24 +53,14 @@ namespace implement_Exam
         private void Form2_Load(object sender, EventArgs e)
         {
 
-            cnx.Open();
-            DataTable dt = new DataTable();
-            string command = "SELECT matiere,duree,note,date FROM epreuve";
-            SqlCommand cmd2 = new SqlCommand(command, cnx);
-            dt.Load(cmd2.ExecuteReader());
 
-            foreach (DataRow row in dt.Rows)
-            {
-                Epreuve ep = new Epreuve(row["matiere"].ToString(), row["duree"].ToString(), Convert.ToInt32(row["note"]), Convert.ToDateTime(row["date"]));
-
-                epreuves.Add(ep);
-                epreuves.ForEach(Console.WriteLine);
-            }
-
-            cnx.Close();
-            if (!TableIsEmpty())
+            if (!requete.TableIsEmpty())
             {
                 btnAddQuestion.Enabled = true;
+            }
+            else
+            {
+                btnAddQuestion.Enabled = false;
             }
         }
 
@@ -137,6 +106,7 @@ namespace implement_Exam
         private void BtnSave_Click(object sender, EventArgs e)
         {
             /* if pour assurer que les champs sont remplis  */
+
             if (String.IsNullOrEmpty(txtDuree.Text) || String.IsNullOrEmpty(txtMatiere.Text) || numericUpDownNOTE.Value == 0)
             {
                 BtnSave.Text = "try again";
@@ -149,14 +119,9 @@ namespace implement_Exam
                 turn_On_Off(BtnSave, false);
 
                 epreuves.Add(new Epreuve(txtMatiere.Text, txtDuree.Text, Convert.ToInt32(numericUpDownNOTE.Value), dateTimePicker.Value.Date));
+
                 /* la requete sql*/
-
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "insert into Epreuve ( duree,matiere,note,date ) values('" + epreuves.LastOrDefault().Duree + " ','" + epreuves.LastOrDefault().Matiere + "','" + epreuves.LastOrDefault().NoteTotal + "','" + epreuves.LastOrDefault().DateEpreuve + "') ;";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
-
+                requete.insertEpreuve(txtDuree.Text, txtMatiere.Text, Convert.ToInt32(numericUpDownNOTE.Value), dateTimePicker.Value.Date);
 
 
                 btnAddQuestion.Enabled = true;

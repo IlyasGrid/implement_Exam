@@ -2,6 +2,7 @@ using implement_Exam.csEpreuve;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using implement_Exam.Sql;
 
 namespace implement_Exam
 {
@@ -12,7 +13,8 @@ namespace implement_Exam
         static SqlCommand cmd = new SqlCommand();
         static SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 
-        public List<Question> questions = new List<Question>();
+        QuestionRequete requete = new QuestionRequete();
+
 
         /* pour identifier type de question si il est qcm ou pas*/
         bool estQsm;
@@ -38,57 +40,25 @@ namespace implement_Exam
         }
 
 
-        /*verifier si la table est vide*/
-        public bool TableQSIsEmpty(string table)
-        {
-            string qry = "SELECT count(*) FROM " + table + " where idepreuve = " + cbxEpreuve.SelectedValue + ";";
-            SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-IOMF4D2\MSSQLSERVER02 ;Initial Catalog=Examen;Integrated Security=True");
-            conn.Open();
-            SqlCommand comd = new SqlCommand(qry, conn);
-            try
-            {
-                Int32 count = (Int32)comd.ExecuteScalar();
-                if (count == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            string query = "select matiere, id from epreuve";
-            cmd.CommandText = query;
-            cnx.Open();
-            SqlDataAdapter drd = new SqlDataAdapter(query, cnx);
-            DataSet ds = new DataSet();
-            drd.Fill(ds, "matiere");
-            cbxEpreuve.DisplayMember = "matiere";
-            cbxEpreuve.ValueMember = "id";
-            cbxEpreuve.DataSource = ds.Tables["matiere"];
-            cnx.Close();
+            requete.fillEpreuveCombobox(cbxEpreuve);
 
 
             turn_On_Off(btnAdd, true);
             turn_On_Off(btnSave, false);
             turn_On_Off(btnCancel, false);
 
-            txtenonce.Enabled = true;
-            numericUpDownNote.Enabled = true;
-            radioQsm.Enabled = true;
-            radioQSouverte.Enabled = true;
+            txtenonce.Enabled = false;
+            numericUpDownNote.Enabled = false;
+            radioQsm.Enabled = false;
+            radioQSouverte.Enabled = false;
 
-            if (TableQSIsEmpty("question"))
+            if (requete.TableQSIsEmpty((int)cbxEpreuve.SelectedValue))
             {
                 cbxQuestion.Enabled = false;
                 turn_On_Off(btnModify, false);
@@ -109,6 +79,7 @@ namespace implement_Exam
             turn_On_Off(btnSave, true);
             turn_On_Off(btnCancel, true);
 
+            cbxEpreuve.Enabled = false;
             cbxQuestion.Enabled = false;
             txtenonce.Enabled = true;
             numericUpDownNote.Enabled = true;
@@ -125,6 +96,7 @@ namespace implement_Exam
             turn_On_Off(btnSave, true);
             turn_On_Off(btnCancel, true);
 
+            cbxEpreuve.Enabled = true;
             cbxQuestion.Enabled = true;
             txtenonce.Enabled = true;
             numericUpDownNote.Enabled = true;
@@ -142,6 +114,7 @@ namespace implement_Exam
             turn_On_Off(btnSave, true);
             turn_On_Off(btnCancel, true);
 
+            cbxEpreuve.Enabled = true;
             cbxQuestion.Enabled = true;
             txtenonce.Enabled = false;
             numericUpDownNote.Enabled = false;
@@ -159,79 +132,41 @@ namespace implement_Exam
             turn_On_Off(btnDelete, true);
             turn_On_Off(btnAdd, true);
 
-            txtenonce.Enabled = true;
+            cbxEpreuve.Enabled = true;
+            txtenonce.Enabled = false;
             cbxQuestion.Enabled = true;
-            numericUpDownNote.Enabled = true;
-            radioQsm.Enabled = true;
-            radioQSouverte.Enabled = true;
+            numericUpDownNote.Enabled = false;
+            radioQsm.Enabled = false;
+            radioQSouverte.Enabled = false;
+
 
             if (whatClicked == "add")
             {
                 string ennonce = txtenonce.Text;
                 int note = int.Parse(numericUpDownNote.Value.ToString());
+                int idEpreuve = (int)cbxEpreuve.SelectedValue;
 
-                questions.Add(new(ennonce, note));
+                requete.insertQuestion(ennonce, note, estQsm, idEpreuve);
 
-
-                cnx.Close();
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "insert into question( ennonce,noteQs,idEpreuve,type ) values('" + ennonce + " '," + note + "," + cbxEpreuve.SelectedValue + ",'" + estQsm + "')";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
 
             }
             if (whatClicked == "modify")
             {
                 string ennonce = txtenonce.Text;
                 int note = int.Parse(numericUpDownNote.Value.ToString());
-
-                object obj = new object();
-                SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
-                cmd.Connection.Open();
-                obj = cmd.ExecuteNonQuery();
-                string enn = (string)obj;
-
-                for (int i = 0; i < questions.Count; i++)
-                {
-                    if (questions[i].Ennonce == enn)
-                    {
-                        questions[i].Ennonce = ennonce;
-                        questions[i].NoteQuestion = note;
-                    }
-                }
-
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = " update question set ennonce ='" + txtenonce.Text + "', noteQs = " + numericUpDownNote.Value + ",type = '" + estQsm + "' where id= " + cbxQuestion.SelectedValue + " ;";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
+                int idQs = (int)cbxQuestion.SelectedValue;
+                requete.updateQuestion(ennonce, note, estQsm, idQs);
                 txtenonce.Clear();
+
+
             }
             if (whatClicked == "delete")
             {
-                /*            cnx.Close();
-                            object obj = new object();
-                            SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
-                            cmd.Connection.Open();
-                            obj = cmd.ExecuteNonQuery();
-                            string enn = (string)obj;
 
-                for (int i = 0; i < questions.Count; i++)
-                {
-                    if (questions[i].Ennonce == enn)
-                    {
-                        questions.RemoveAt(i);
-                    }
-                }*/
                 try
                 {
-                    cnx.Close();
-                    cnx.Open();
-                    cmd.Connection = cnx;
-                    cmd.CommandText = "delete from question where id =" + cbxQuestion.SelectedValue + " ";
-                    cmd.ExecuteNonQuery();
-                    cnx.Close();
+                    int idQS = (int)cbxQuestion.SelectedValue;
+                    requete.deleteQuestion(idQS);
                 }
                 catch
                 {
@@ -252,11 +187,12 @@ namespace implement_Exam
             turn_On_Off(btnModify, true);
             turn_On_Off(btnDelete, true);
 
+            cbxEpreuve.Enabled = true;
             cbxQuestion.Enabled = true;
-            txtenonce.Enabled = true;
-            numericUpDownNote.Enabled = true;
-            radioQsm.Enabled = true;
-            radioQSouverte.Enabled = true;
+            txtenonce.Enabled = false;
+            numericUpDownNote.Enabled = false;
+            radioQsm.Enabled = false;
+            radioQSouverte.Enabled = false;
             txtenonce.Clear();
             numericUpDownNote.Value = 0;
         }
@@ -275,45 +211,38 @@ namespace implement_Exam
         {
             lblError.Visible = false;
             turn_On_Off(btnAdd, true);
+            turn_On_Off(btnDelete, false);
+            turn_On_Off(btnModify, false);
+            turn_On_Off(btnSave, false);
+            turn_On_Off(btnCancel, false);
 
-            cnx.Close();
 
-            cnx.Open();
+            requete.fillQuestionCombobox(cbxQuestion, (int)cbxEpreuve.SelectedValue);
 
-            string query2 = "select ennonce, id from question where idepreuve=" + cbxEpreuve.SelectedValue + " ;";
-            cmd.CommandText = query2;
-
-            SqlDataAdapter drd2 = new SqlDataAdapter(query2, cnx);
-            DataSet ds2 = new DataSet();
-            drd2.Fill(ds2, "ennonce");
-            cbxQuestion.DisplayMember = "ennonce";
-            cbxQuestion.ValueMember = "id";
-            cbxQuestion.DataSource = ds2.Tables["ennonce"];
-            cnx.Close();
-
-            if (TableQSIsEmpty("question"))
+            if (requete.TableQSIsEmpty((int)cbxEpreuve.SelectedValue))
             {
                 cbxQuestion.Enabled = false;
-                turn_On_Off(btnModify, false);
-                turn_On_Off(btnDelete, false);
             }
             else
             {
-                turn_On_Off(btnModify, true);
-                turn_On_Off(btnDelete, true);
+                cbxQuestion.Enabled = true;
             }
         }
 
         private void cbxQuestion_SelectedIndexChanged(object sender, EventArgs e)
         {
             lblError.Visible = false;
+            turn_On_Off(btnAdd, true);
+            turn_On_Off(btnDelete, true);
+            turn_On_Off(btnModify, true);
+            turn_On_Off(btnSave, false);
+            turn_On_Off(btnCancel, false);
 
-            cnx.Close();
-            cnx.Open();
-            cmd.Connection = cnx;
-            cmd.CommandText = "select type from question where id= " + cbxQuestion.SelectedValue + ";";
-            bool isQsm = (bool)cmd.ExecuteScalar();
-            if (isQsm)
+
+
+            int idQS = (int)cbxQuestion.SelectedValue;
+
+            if (requete.isQcm(idQS))
             {
                 addRps.Visible = true;
             }
@@ -372,12 +301,10 @@ namespace implement_Exam
         {
             try
             {
-                cnx.Close();
-                cnx.Open();
-                cmd.Connection = cnx;
-                cmd.CommandText = "delete from epreuve where id =" + cbxEpreuve.SelectedValue + " ";
-                cmd.ExecuteNonQuery();
-                cnx.Close();
+                EpreuveRequte req = new EpreuveRequte();
+                int idEp = (int)cbxEpreuve.SelectedValue;
+                req.deletEpreuve(idEp);
+
             }
             catch
             {
