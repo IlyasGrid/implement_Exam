@@ -210,23 +210,22 @@ namespace implement_Exam
             }
             if (whatClicked == "delete")
             {
+                /*            cnx.Close();
+                            object obj = new object();
+                            SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
+                            cmd.Connection.Open();
+                            obj = cmd.ExecuteNonQuery();
+                            string enn = (string)obj;
+
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    if (questions[i].Ennonce == enn)
+                    {
+                        questions.RemoveAt(i);
+                    }
+                }*/
                 try
                 {
-                    object obj = new object();
-                    SqlCommand cmd = new SqlCommand("SELECT ennonce FROM question WHERE id =" + cbxQuestion.SelectedValue + " ", cnx);
-                    cmd.Connection.Open();
-                    obj = cmd.ExecuteNonQuery();
-                    string enn = (string)obj;
-
-                    for (int i = 0; i < questions.Count; i++)
-                    {
-                        if (questions[i].Ennonce == enn)
-                        {
-                            questions.RemoveAt(i);
-                        }
-                    }
-
-
                     cnx.Close();
                     cnx.Open();
                     cmd.Connection = cnx;
